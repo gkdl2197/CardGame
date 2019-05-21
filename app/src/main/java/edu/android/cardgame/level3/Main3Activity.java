@@ -1,6 +1,7 @@
 package edu.android.cardgame.level3;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,10 +16,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import edu.android.cardgame.R;
+import edu.android.cardgame.level2.Result2Activity;
 
 public class Main3Activity extends AppCompatActivity implements View.OnClickListener {
+    private final Context context = this;
 
     private static final int TOTAL_CARD_NUM = 20; // 카드 수
+    public static final String SCORE_CHO = "score_cho";
 
     private int[] cardId = {R.id.card01, R.id.card02, R.id.card03, R.id.card04, R.id.card05, R.id.card06, R.id.card07,
             R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12, R.id.card13, R.id.card14, R.id.card15, R.id.card16, R.id.card17, R.id.card18, R.id.card19,
@@ -33,6 +37,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
 
     //********
     private int CHO; // 초기 시간
+    private static int scoreCho;
 
     //----------- 액티비티 위젯 -----------//
     private Button start;
@@ -143,6 +148,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
                             textCount.setText(SUCCESS_CNT+"개(짝)");
                             Log.v("SUCCESS_CNT", "" + SUCCESS_CNT);
                             if (SUCCESS_CNT == TOTAL_CARD_NUM / 2) { // 모든 카드의 짝을 다 맞추었을 경우
+                                scoreCho = CHO;
                                 CHO = 0;
                                 clearDialog();
                             }
@@ -339,8 +345,19 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
                 textTime.setText(msg.arg1 + "초");
 
                 if (msg.arg1 <= 0) {
-                    startActivity(new Intent(Main3Activity.this, Result3Activity.class));
-
+                    AlertDialog.Builder alt1 = new AlertDialog.Builder(context);
+                    alt1.setMessage("시간 초과! 다시 도전하세요.")
+                            .setCancelable(false)
+                            .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog alt2 = alt1.create();
+                    alt2.setTitle("짝 맞추기 실패");
+                    alt2.show();
+                    Intent intent = new Intent(Main3Activity.this, Result3Activity.class);
+                    intent.putExtra(SCORE_CHO, scoreCho);
+                    startActivity(intent);
 
                     thread.interrupt();
 

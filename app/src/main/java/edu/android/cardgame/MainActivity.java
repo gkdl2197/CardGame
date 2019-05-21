@@ -1,6 +1,7 @@
 package edu.android.cardgame;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final Context context = this;
 
     private static final String TAG = "tag";
     private static final int TOTAL_CARD_NUM = 12; // 카드 수
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setCancelable(false)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        
                         Log.i(TAG, "2");
                     }
                 });
@@ -337,6 +340,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textTime.setText(msg.arg1 + "초");
 
             if (msg.arg1 <= 0) {
+                AlertDialog.Builder alt1 = new AlertDialog.Builder(context);
+                alt1.setMessage("시간 초과! 다시 도전하세요.")
+                        .setCancelable(false)
+                        .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Log.i(TAG, "3");
+                            }
+                        });
+                AlertDialog alt2 = alt1.create();
+                alt2.setTitle("짝 맞추기 실패");
+                alt2.show();
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
                 intent.putExtra(SCORE_CHO, scoreCho);
                 startActivity(intent);

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import edu.android.cardgame.R;
 import edu.android.cardgame.level3.Main3Activity;
+import static edu.android.cardgame.level2.Main2Activity.SCORE_CHO;
 
 public class Result2Activity extends AppCompatActivity {
 
@@ -25,13 +26,15 @@ public class Result2Activity extends AppCompatActivity {
         btnRetry = findViewById(R.id.btnRetry);
         spf = getSharedPreferences("spfScore", MODE_PRIVATE);
 
-        int score = getIntent().getIntExtra("score",-1);
-        textResult.setText(String.valueOf(score));
+        int score_cho = getIntent().getIntExtra(SCORE_CHO,0);
+        int score = 30 - score_cho;
 
-        if(spf.getInt("spfscore",0) < score){ //내점수가 저번 점수보다 크면
-            spf.edit().putInt("spfscore",score).commit(); //반영의 commit(). 현재상태 저장
-            textResult.setText("신기록달성\n"+score);
-        }
+        textResult.setText("걸린 시간: " + score + "초");
+
+//        if(spf.getInt("spfscore",0) < score){ //내점수가 저번 점수보다 크면
+//            spf.edit().putInt("spfscore",score).commit(); //반영의 commit(). 현재상태 저장
+//            textResult.setText("신기록달성\n"+score);
+//        }
 
 
         btnRetry.setOnClickListener(new View.OnClickListener() {
