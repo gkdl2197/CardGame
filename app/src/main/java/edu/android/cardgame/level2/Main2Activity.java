@@ -17,11 +17,10 @@ import edu.android.cardgame.R;
 
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener {
-    private static final int TOTAL_CARD_NUM = 20; // 카드 수
+    private static final int TOTAL_CARD_NUM = 16; // 카드 수
 
     private int[] cardId = {R.id.card01, R.id.card02, R.id.card03, R.id.card04, R.id.card05, R.id.card06, R.id.card07,
-            R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12, R.id.card13, R.id.card14, R.id.card15, R.id.card16, R.id.card17, R.id.card18, R.id.card19,
-    R.id.card20};
+            R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12, R.id.card13, R.id.card14, R.id.card15, R.id.card16};
 
     private Main2Activity.Card[] cardArray = new Main2Activity.Card[TOTAL_CARD_NUM];
 
@@ -94,7 +93,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
     protected void clearDialog() {
         AlertDialog.Builder alt1 = new AlertDialog.Builder(this);
-        alt1.setMessage("미션 성공!")
+        alt1.setMessage("미션 성공! 마지막 단계로 갑니다.")
                 .setCancelable(false)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -209,7 +208,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         setResult(RESULT_OK);
         //TODO
         // ?? 1초 쉬었다가 시작되니까 일단 29로 설정해둠
-        CHO = 29;
+        CHO = 30;
         start.setVisibility(View.VISIBLE);
         for (int i = 0; i < TOTAL_CARD_NUM; i++) {
             cardArray[i] = new Main2Activity.Card(i / 2); // 카드 생성
@@ -291,9 +290,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
     class Card {
         private final static int backImageID = R.drawable.game2_cardback;
-        private final int[] frontImageID = {R.drawable.game2lv2_card01, R.drawable.game2lv2_card02, R.drawable.game2lv2_card03,
-                R.drawable.game2lv2_card04, R.drawable.game2lv2_card05, R.drawable.game2lv2_card06, R.drawable.game2lv2_card07, R.drawable.game2lv2_card08
-        , R.drawable.game2lv2_card09, R.drawable.game2lv2_card10};
+        private final int[] frontImageID = {R.drawable.game2_card01, R.drawable.game2_card02, R.drawable.game2_card03,
+                R.drawable.game2_card04, R.drawable.game2_card05, R.drawable.game2_card06, R.drawable.game2_card07, R.drawable.game2_card08};
 
         boolean isBack;
         int value;

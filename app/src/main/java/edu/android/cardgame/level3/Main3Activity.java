@@ -1,4 +1,4 @@
-package edu.android.cardgame;
+package edu.android.cardgame.level3;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,17 +14,20 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import edu.android.cardgame.R;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int TOTAL_CARD_NUM = 12; // 카드 수
+public class Main3Activity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int TOTAL_CARD_NUM = 20; // 카드 수
 
     private int[] cardId = {R.id.card01, R.id.card02, R.id.card03, R.id.card04, R.id.card05, R.id.card06, R.id.card07,
-            R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12};
+            R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12, R.id.card13, R.id.card14, R.id.card15, R.id.card16, R.id.card17, R.id.card18, R.id.card19,
+            R.id.card20};
 
-    private Card[] cardArray = new Card[TOTAL_CARD_NUM];
+    private Main3Activity.Card[] cardArray = new Main3Activity.Card[TOTAL_CARD_NUM];
 
     private int CLICK_CNT = 0; // 클릭 카운트
-    private Card first, second; // 첫번째 누른 버튼과 두번째 누른 버튼
+    private Main3Activity.Card first, second; // 첫번째 누른 버튼과 두번째 누른 버튼
     private int SUCCESS_CNT = 0; // 짝 맞추기 성공 카운트
     private boolean INPLAY = false; // 카드를 클릭할 수 있는지 여부
 
@@ -40,13 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main3);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         for (int i = 0; i < TOTAL_CARD_NUM; i++) {
-            cardArray[i] = new Card(i / 2); // 카드 생성
+            cardArray[i] = new Main3Activity.Card(i / 2); // 카드 생성
             findViewById(cardId[i]).setOnClickListener(this); // 카드 클릭 리스너 설정
             cardArray[i].card = findViewById(cardId[i]); // 카드 할당
             cardArray[i].onBack(); // 카드 뒤집어 놓음
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textTime = findViewById(R.id.textTime);
         textCount = findViewById(R.id.textCount);
 
-        CHO = 25;
+        CHO = 60;
         textTime.setText(CHO + "초");
         textCount.setText("0개");
         start = findViewById(R.id.start);
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 start.setVisibility(View.GONE);
                 textCount.setVisibility(View.VISIBLE);
 
-                thread = new Thread(new timeCheck());
+                thread = new Thread(new Main3Activity.timeCheck());
                 thread.start();
                 startGame();
                 //start.setBackgroundDrawable(background);
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void startDialog() {
         AlertDialog.Builder alt1 = new AlertDialog.Builder(this);
-        alt1.setMessage("카드 짝 맞추기 게임입니다. 카드패를 잘 기억하시고 카드를 2개씩 뒤집어 짝을 맞추면 됩니다. 모든 짝을 맞추면 완료됩니다.")
+        alt1.setMessage("축하드립니다! 모든 단계를 성공하셨습니다!!")
                 .setCancelable(false)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void clearDialog() {
         AlertDialog.Builder alt1 = new AlertDialog.Builder(this);
-        alt1.setMessage("미션 성공! 다음 단계를 진행하세요~")
+        alt1.setMessage("미션 모두 성공!!")
                 .setCancelable(false)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 clearDialog();
                             }
                         } else { // 짝이 틀릴 경우
-                            Timer t = new Timer(0);
+                            Main3Activity.Timer t = new Main3Activity.Timer(0);
                             t.start();
                         }
                         CLICK_CNT = 0;
@@ -184,9 +187,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cardArray[i].card = findViewById(cardId[random[i]]);
             cardArray[i].onFront();
         }
-    // TODO 다 끝났을 때?
+        // TODO 다 끝났을 때?
         Log.v("timer", "start");
-        Timer t = new Timer(1);
+        Main3Activity.Timer t = new Main3Activity.Timer(1);
         //flag = false;
         t.start();
 		/*
@@ -207,10 +210,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setResult(RESULT_OK);
         //TODO
         // ?? 1초 쉬었다가 시작되니까 일단 29로 설정해둠
-        CHO = 24;
+        CHO = 59;
         start.setVisibility(View.VISIBLE);
         for (int i = 0; i < TOTAL_CARD_NUM; i++) {
-            cardArray[i] = new Card(i / 2); // 카드 생성
+            cardArray[i] = new Main3Activity.Card(i / 2); // 카드 생성
             findViewById(cardId[i]).setOnClickListener(this); // 카드 클릭 리스너 설정
             cardArray[i].card = findViewById(cardId[i]); // 카드 할당
             cardArray[i].onBack(); // 카드 뒤집어 놓음
@@ -220,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 start.setVisibility(View.GONE);
                 textCount.setVisibility(View.VISIBLE);
 
-                thread = new Thread(new timeCheck());
+                thread = new Thread(new Main3Activity.timeCheck());
                 thread.start();
                 startGame();
                 //start.setBackgroundDrawable(background);
@@ -230,6 +233,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //                finish();
     } // end onClickReset()
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 
 
     class Timer extends Thread {
@@ -267,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     second.onBack();
                     first.isBack = true;
                     second.isBack = true;
-                    thread = new Thread(new timeCheck());
+                    thread = new Thread(new Main3Activity.timeCheck());
                     thread.start();
                 } else if (msg.what == 1) {
                     //flag = true;
@@ -284,8 +292,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     class Card {
         private final static int backImageID = R.drawable.game2_cardback;
-        private final int[] frontImageID = {R.drawable.game2lv1_card01, R.drawable.game2lv1_card02, R.drawable.game2lv1_card03,
-                R.drawable.game2lv1_card04, R.drawable.game2lv1_card05, R.drawable.game2lv1_card06};
+        private final int[] frontImageID = {R.drawable.game2lv2_card01, R.drawable.game2lv2_card02, R.drawable.game2lv2_card03,
+                R.drawable.game2lv2_card04, R.drawable.game2lv2_card05, R.drawable.game2lv2_card06, R.drawable.game2lv2_card07, R.drawable.game2lv2_card08
+                , R.drawable.game2lv2_card09, R.drawable.game2lv2_card10};
 
         boolean isBack;
         int value;
@@ -329,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textTime.setText(msg.arg1 + "초");
 
                 if (msg.arg1 <= 0) {
-                    startActivity(new Intent(MainActivity.this, ResultActivity.class));
+                    startActivity(new Intent(Main3Activity.this, Result3Activity.class));
 
 
                     thread.interrupt();
@@ -341,13 +350,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void run() {
-            int i = 25;
+            int i = 60;
             while (true) {
                 try {
                     Message msg = new Message();
                     msg.arg1 = CHO--;
                     Thread.sleep(1000);
-                     handler.sendMessage(msg);
+                    handler.sendMessage(msg);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -357,5 +366,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     } // end class timeCheck
-
-} // end class MainActivity
+}

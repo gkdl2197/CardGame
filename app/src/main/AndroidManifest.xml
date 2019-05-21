@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".level2.Result2Activity"></activity>
+        <activity android:name=".level3.Result3Activity"></activity>
+        <activity android:name=".level3.Main3Activity" />
+        <activity android:name=".level2.Result2Activity" />
         <activity android:name=".level2.Main2Activity" />
         <activity android:name=".ResultActivity" />
         <activity android:name=".MainActivity">
