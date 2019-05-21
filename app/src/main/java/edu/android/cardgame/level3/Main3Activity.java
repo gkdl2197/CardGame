@@ -82,7 +82,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
 
     protected void startDialog() {
         AlertDialog.Builder alt1 = new AlertDialog.Builder(this);
-        alt1.setMessage("축하드립니다! 모든 단계를 성공하셨습니다!!")
+        alt1.setMessage("마지막 단계입니다. 꼭 통과하시길!!")
                 .setCancelable(false)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

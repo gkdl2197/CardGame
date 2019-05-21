@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import edu.android.cardgame.R;
+import edu.android.cardgame.level3.Main3Activity;
 
 public class Result2Activity extends AppCompatActivity {
 
@@ -45,7 +46,7 @@ public class Result2Activity extends AppCompatActivity {
 
     public void Next(View view) {
 
-        Intent intent = new Intent(this, Main2Activity.class);
+        Intent intent = new Intent(this, Main3Activity.class);
         startActivity(intent);
     }
 }
