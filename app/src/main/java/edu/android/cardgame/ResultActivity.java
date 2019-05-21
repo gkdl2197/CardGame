@@ -30,7 +30,7 @@ public class ResultActivity extends AppCompatActivity {
 
         if(spf.getInt("spfscore",0) < score){ //내점수가 저번 점수보다 크면
             spf.edit().putInt("spfscore",score).commit(); //반영의 commit(). 현재상태 저장
-            textResult.setText("신기록달성\n"+score);
+            textResult.setText("신기록달성\n" + score);
         }
 
 

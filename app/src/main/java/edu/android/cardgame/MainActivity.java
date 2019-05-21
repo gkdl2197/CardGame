@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "tag";
     private static final int TOTAL_CARD_NUM = 12; // 카드 수
 
     private int[] cardId = {R.id.card01, R.id.card02, R.id.card03, R.id.card04, R.id.card05, R.id.card06, R.id.card07,
@@ -96,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setCancelable(false)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        Log.i(TAG, "2");
                     }
                 });
         AlertDialog alt2 = alt1.create();
@@ -140,7 +144,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             textCount.setText(SUCCESS_CNT+"개(짝)");
                             Log.v("SUCCESS_CNT", "" + SUCCESS_CNT);
                             if (SUCCESS_CNT == TOTAL_CARD_NUM / 2) { // 모든 카드의 짝을 다 맞추었을 경우
+                                CHO=0;
                                 clearDialog();
+                                //TODO
+
                             }
                         } else { // 짝이 틀릴 경우
                             Timer t = new Timer(0);
@@ -328,9 +335,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 textTime.setText(msg.arg1 + "초");
 
-                if (msg.arg1 <= 0) {
+            if (msg.arg1 <= 0) {
                     startActivity(new Intent(MainActivity.this, ResultActivity.class));
-
+                    Log.i(TAG, "1");
 
                     thread.interrupt();
 

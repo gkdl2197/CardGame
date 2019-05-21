@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import edu.android.cardgame.MainActivity;
 import edu.android.cardgame.R;
 
 public class Result3Activity extends AppCompatActivity {
@@ -37,7 +38,7 @@ public class Result3Activity extends AppCompatActivity {
         btnRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Result3Activity.this, Main3Activity.class);
+                Intent intent = new Intent(Result3Activity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

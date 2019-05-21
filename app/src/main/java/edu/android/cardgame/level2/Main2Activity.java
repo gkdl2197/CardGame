@@ -141,6 +141,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                             textCount.setText(SUCCESS_CNT+"개(짝)");
                             Log.v("SUCCESS_CNT", "" + SUCCESS_CNT);
                             if (SUCCESS_CNT == TOTAL_CARD_NUM / 2) { // 모든 카드의 짝을 다 맞추었을 경우
+                                CHO = 0;
                                 clearDialog();
                             }
                         } else { // 짝이 틀릴 경우
