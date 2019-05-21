@@ -14,13 +14,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int TOTAL_CARD_NUM = 16; // 카드 수
 
-    private int[] cardId = { R.id.card01, R.id.card02,  R.id.card03,  R.id.card04,  R.id.card05,  R.id.card06,  R.id.card07,
-            R.id.card08,  R.id.card09,  R.id.card10,  R.id.card11,  R.id.card12,  R.id.card13,  R.id.card14,  R.id.card15,  R.id.card16 };
+    private int[] cardId = {R.id.card01, R.id.card02, R.id.card03, R.id.card04, R.id.card05, R.id.card06, R.id.card07,
+            R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12, R.id.card13, R.id.card14, R.id.card15, R.id.card16};
 
     private Card[] cardArray = new Card[TOTAL_CARD_NUM];
 
@@ -28,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Card first, second; // 첫번째 누른 버튼과 두번째 누른 버튼
     private int SUCCESS_CNT = 0; // 짝 맞추기 성공 카운트
     private boolean INPLAY = false; // 카드를 클릭할 수 있는지 여부
+
+    //********
+    private int CHO; // 초기 시간
 
     //----------- 액티비티 위젯 -----------//
     private Button start;
@@ -43,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
-        for(int i=0; i<TOTAL_CARD_NUM; i++) {
-            cardArray[i] = new Card(i/2); // 카드 생성
+        for (int i = 0; i < TOTAL_CARD_NUM; i++) {
+            cardArray[i] = new Card(i / 2); // 카드 생성
             findViewById(cardId[i]).setOnClickListener(this); // 카드 클릭 리스너 설정
             cardArray[i].card = findViewById(cardId[i]); // 카드 할당
             cardArray[i].onBack(); // 카드 뒤집어 놓음
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textTime = findViewById(R.id.textTime);
         textCount = findViewById(R.id.textCount);
 
-        textTime.setText("30초");
+        CHO = 30;
+        textTime.setText(CHO + "초");
         textCount.setText("0개");
         start = findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
@@ -64,21 +67,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 start.setVisibility(View.GONE);
                 textCount.setVisibility(View.VISIBLE);
 
-                thread=new Thread(new timeCheck());
+                thread = new Thread(new timeCheck());
                 thread.start();
                 startGame();
                 //start.setBackgroundDrawable(background);
             }
 
         });
-        findViewById(R.id.exit).setOnClickListener(new View.OnClickListener() {
 
-
-            public void onClick(View v) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        });
     } // end onCreate()
 
     protected void startDialog() {
@@ -130,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
                 case 1: // 카드 두개 뒤집었을 경우
-                    for (int i=0; i<TOTAL_CARD_NUM; i++) {
+                    for (int i = 0; i < TOTAL_CARD_NUM; i++) {
                         if (cardArray[i].card == (ImageButton) v) {
                             second = cardArray[i];
                             break;
@@ -141,12 +137,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (first.value == second.value) { // 짝이 맞은 경우
                             SUCCESS_CNT++;
+                            textCount.setText(SUCCESS_CNT+"개(짝)");
                             Log.v("SUCCESS_CNT", "" + SUCCESS_CNT);
-                            if (SUCCESS_CNT == TOTAL_CARD_NUM/2) { // 모든 카드의 짝을 다 맞추었을 경우
+                            if (SUCCESS_CNT == TOTAL_CARD_NUM / 2) { // 모든 카드의 짝을 다 맞추었을 경우
                                 clearDialog();
                             }
-                        }
-                        else { // 짝이 틀릴 경우
+                        } else { // 짝이 틀릴 경우
                             Timer t = new Timer(0);
                             t.start();
                         }
@@ -155,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
         }
-        
+
     } // end onClick()
 
     public void startGame() {
@@ -184,11 +180,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         start.setClickable(false);
-        for (int i=0; i<TOTAL_CARD_NUM; i++) {
-            cardArray[i].card = (ImageButton) findViewById(cardId[random[i]]);
+        for (int i = 0; i < TOTAL_CARD_NUM; i++) {
+            cardArray[i].card = findViewById(cardId[random[i]]);
             cardArray[i].onFront();
         }
-
+    // TODO 다 끝났을 때?
         Log.v("timer", "start");
         Timer t = new Timer(1);
         //flag = false;
@@ -206,13 +202,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         INPLAY = true;
     } // end startGame()
 
+    //TODO
+    public void onClickReset(View view) {
+        setResult(RESULT_OK);
+        //TODO
+        // ?? 1초 쉬었다가 시작되니까 일단 29로 설정해둠
+        CHO = 29;
+        start.setVisibility(View.VISIBLE);
+        for (int i = 0; i < TOTAL_CARD_NUM; i++) {
+            cardArray[i] = new Card(i / 2); // 카드 생성
+            findViewById(cardId[i]).setOnClickListener(this); // 카드 클릭 리스너 설정
+            cardArray[i].card = findViewById(cardId[i]); // 카드 할당
+            cardArray[i].onBack(); // 카드 뒤집어 놓음
+        }
+        start.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                start.setVisibility(View.GONE);
+                textCount.setVisibility(View.VISIBLE);
+
+                thread = new Thread(new timeCheck());
+                thread.start();
+                startGame();
+                //start.setBackgroundDrawable(background);
+            }
+
+        });
+
+//                finish();
+    } // end onClickReset()
+
+
     class Timer extends Thread {
         int kind;
 
-        Timer (int kind) {
+        Timer(int kind) {
             super();
             this.kind = kind;
         }
+
         @Override
         public void run() {
             INPLAY = false;
@@ -220,8 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (kind == 0) {
                     Thread.sleep(1000);
                     mHandler.sendEmptyMessage(0);
-                }
-                else if (kind == 1) {
+                } else if (kind == 1) {
                     Thread.sleep(3000);
                     mHandler.sendEmptyMessage(1);
                 }
@@ -231,34 +257,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             INPLAY = true;
         }
 
-    Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            textTime.setText(msg.arg1+"초");
-            if (msg.what == 0) {
-                startActivity(new Intent(MainActivity.this, ResultActivity.class));
-                thread.interrupt();
-                first.onBack();
-                second.onBack();
-                first.isBack = true;
-                second.isBack = true;
-            }
-            else if (msg.what == 1) {
-                //flag = true;
-                for (int i=0; i<TOTAL_CARD_NUM; i++) {
-                    cardArray[i].onBack();
+        Handler mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+//                textTime.setText(CHO + "초");
+                if (msg.what == 0) {
+//                    startActivity(new Intent(MainActivity.this, ResultActivity.class));
+                    thread.interrupt();
+                    first.onBack();
+                    second.onBack();
+                    first.isBack = true;
+                    second.isBack = true;
+                    thread = new Thread(new timeCheck());
+                    thread.start();
+                } else if (msg.what == 1) {
+                    //flag = true;
+                    for (int i = 0; i < TOTAL_CARD_NUM; i++) {
+                        cardArray[i].onBack();
+                    }
+                    start.setClickable(true);
                 }
-                start.setClickable(true);
+
             }
+        };
 
-        }
-    };
-
-}
+    }
 
     class Card {
         private final static int backImageID = R.drawable.game2_cardback;
-        private final int[] frontImageID = { R.drawable.game2_card01, R.drawable.game2_card02, R.drawable.game2_card03,
-            R.drawable.game2_card04, R.drawable.game2_card05, R.drawable.game2_card06, R.drawable.game2_card07, R.drawable.game2_card08 };
+        private final int[] frontImageID = {R.drawable.game2_card01, R.drawable.game2_card02, R.drawable.game2_card03,
+                R.drawable.game2_card04, R.drawable.game2_card05, R.drawable.game2_card06, R.drawable.game2_card07, R.drawable.game2_card08};
 
         boolean isBack;
         int value;
@@ -279,8 +306,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!isBack) {
                 card.setBackgroundResource(backImageID);
                 isBack = true;
-            }
-            else {
+            } else {
                 card.setBackgroundResource(frontImageID[value]);
                 isBack = false;
             }
@@ -292,17 +318,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 isBack = false;
             }
         }
-    }
+    } // end class Card
 
-    public class timeCheck implements Runnable{
+    public class timeCheck implements Runnable {
 
-        Handler handler = new Handler(){
+        Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
 
-                textTime.setText(msg.arg1+"초");
+                textTime.setText(msg.arg1 + "초");
 
-                if(msg.arg1==0){
+                if (msg.arg1 == 0) {
                     startActivity(new Intent(MainActivity.this, ResultActivity.class));
                     thread.interrupt();
 
@@ -314,13 +340,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run() {
             int i = 30;
-            while(true){
+            while (true) {
                 try {
                     Message msg = new Message();
-                    msg.arg1 = i--;
+                    msg.arg1 = CHO--;
                     Thread.sleep(1000);
-                    handler.sendMessage(msg);
-
+                     handler.sendMessage(msg);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -328,6 +353,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
-    }
 
-}
+    } // end class timeCheck
+
+} // end class MainActivity
