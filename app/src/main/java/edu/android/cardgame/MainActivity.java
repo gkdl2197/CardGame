@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = "tag";
     private static final int TOTAL_CARD_NUM = 12; // 카드 수
+    public static final String SCORE_CHO = "score_cho";
 
     private int[] cardId = {R.id.card01, R.id.card02, R.id.card03, R.id.card04, R.id.card05, R.id.card06, R.id.card07,
             R.id.card08, R.id.card09, R.id.card10, R.id.card11, R.id.card12};
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //********
     private int CHO; // 초기 시간
+    private static int scoreCho ; // 넘길 초
 
     //----------- 액티비티 위젯 -----------//
     private Button start;
@@ -45,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         for (int i = 0; i < TOTAL_CARD_NUM; i++) {
             cardArray[i] = new Card(i / 2); // 카드 생성
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textCount.setText("0개");
         start = findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
-
 
             public void onClick(View v) {
 
@@ -144,7 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             textCount.setText(SUCCESS_CNT+"개(짝)");
                             Log.v("SUCCESS_CNT", "" + SUCCESS_CNT);
                             if (SUCCESS_CNT == TOTAL_CARD_NUM / 2) { // 모든 카드의 짝을 다 맞추었을 경우
-                                CHO=0;
+                                scoreCho = CHO;
+                                CHO = 0;
                                 clearDialog();
                                 //TODO
 
@@ -336,7 +337,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textTime.setText(msg.arg1 + "초");
 
             if (msg.arg1 <= 0) {
-                    startActivity(new Intent(MainActivity.this, ResultActivity.class));
+                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                intent.putExtra(SCORE_CHO, scoreCho);
+                startActivity(intent);
+
+
                     Log.i(TAG, "1");
 
                     thread.interrupt();
@@ -353,6 +358,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     Message msg = new Message();
                     msg.arg1 = CHO--;
+
                     Thread.sleep(1000);
                      handler.sendMessage(msg);
 

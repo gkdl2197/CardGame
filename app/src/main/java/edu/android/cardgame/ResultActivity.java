@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import edu.android.cardgame.level2.Main2Activity;
 
+import static edu.android.cardgame.MainActivity.SCORE_CHO;
+
 public class ResultActivity extends AppCompatActivity {
 
     private TextView textResult;
@@ -23,15 +25,18 @@ public class ResultActivity extends AppCompatActivity {
 
         textResult = findViewById(R.id.textResult);
         btnRetry = findViewById(R.id.btnRetry);
+
+        int score_cho = getIntent().getIntExtra(SCORE_CHO,0);
+
         spf = getSharedPreferences("spfScore", MODE_PRIVATE);
 
-        int score = getIntent().getIntExtra("score",-1);
-        textResult.setText(String.valueOf(score));
+        textResult.setText(String.valueOf(score_cho));
 
-        if(spf.getInt("spfscore",0) < score){ //내점수가 저번 점수보다 크면
-            spf.edit().putInt("spfscore",score).commit(); //반영의 commit(). 현재상태 저장
-            textResult.setText("신기록달성\n" + score);
-        }
+//        if(spf.getInt("spfscore",0) < score_cho){ //내점수가 저번 점수보다 크면
+//            spf.edit().putInt("spfscore",score_cho).commit(); //반영의 commit(). 현재상태 저장
+//            textResult.setText("신기록달성\n" + score_cho);
+//        }
+
 
 
         btnRetry.setOnClickListener(new View.OnClickListener() {

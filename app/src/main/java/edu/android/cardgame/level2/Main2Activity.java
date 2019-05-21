@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import edu.android.cardgame.R;
 
+import static edu.android.cardgame.MainActivity.SCORE_CHO;
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener {
     private static final int TOTAL_CARD_NUM = 16; // 카드 수
@@ -44,6 +45,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_main2);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
 
         for (int i = 0; i < TOTAL_CARD_NUM; i++) {
